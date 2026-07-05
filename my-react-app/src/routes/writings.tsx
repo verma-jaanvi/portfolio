@@ -1,7 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { Reveal } from "../components/Reveal";
+import { ParticleField } from "../components/ParticleField";
 import { posts } from "./writings_.$slug";
+import SoftAurora from "../components/SoftAurora";
 
 export const Route = createFileRoute("/writings")({
   head: () => ({
@@ -24,20 +26,51 @@ function Writings() {
 
   return (
     <>
-      <section className="relative pb-16 pt-36 md:pt-48">
-        <div className="bg-grid absolute inset-0 opacity-[0.06]" />
-        <div className="relative mx-auto max-w-5xl px-6">
+      {/* Hero — consistent with all other pages */}
+      <section className="bg-aurora relative isolate min-h-screen overflow-hidden flex items-end pb-28 pt-36 md:pb-40 md:pt-48">
+        {/* SoftAurora full-screen background */}
+        <div className="pointer-events-none absolute inset-0 z-0 w-full h-full">
+          <SoftAurora
+            speed={1.3}
+            scale={1.5}
+            brightness={1.2}
+            color1="#f7f7f7"
+            color2="#e100ff"
+            noiseFrequency={3.5}
+            noiseAmplitude={0.6}
+            bandOffsetFromTop={550}
+            bandHeight={0.2}
+            bandSpread={1.2}
+            octaveDecay={0.15}
+            layerOffset={0}
+            colorSpeed={1}
+            enableMouseInteraction={true}
+            mouseInfluence={0.2}
+          />
+        </div>
+
+        <div className="bg-grid absolute inset-0 z-[1] opacity-[0.12]" />
+        <div className="bg-noise absolute inset-0 z-[1] opacity-30" />
+        <ParticleField density={50} />
+
+        <div className="relative z-10 mx-auto max-w-7xl w-full px-6">
           <Reveal>
-            <p className="font-mono text-xs text-muted-foreground">// signals.journal</p>
+            <div className="font-mono inline-flex items-center gap-2 rounded-full border border-border bg-background/40 px-3 py-1 text-[11px] text-muted-foreground backdrop-blur">
+              <span className="inline-block h-1.5 w-1.5 animate-pulse rounded-full bg-cyan" />
+              signals.journal
+            </div>
           </Reveal>
-          <h1 className="mt-6 font-display text-5xl font-semibold leading-[0.95] sm:text-6xl md:text-8xl">
+          <h1 className="mt-6 pb-3 font-display text-5xl font-semibold leading-[0.9] sm:text-7xl md:text-[7rem] lg:text-[8rem]">
             <Reveal as="span" className="block text-gradient-soft">Notes from</Reveal>
-            <Reveal delay={120} as="span" className="block"><span className="text-gradient italic">the signal</span></Reveal>
+            <Reveal delay={120} as="span" className="block"><span className="text-gradient italic">the signal. </span></Reveal>
           </h1>
           <Reveal delay={240}>
-            <p className="mt-10 max-w-xl leading-relaxed text-foreground/90">
-              Essays, half-formed thoughts, and field notes on artificial intelligence,
-              creative engineering, and the small details that make digital things feel alive.
+            <p className="mt-10 max-w-xl text-base leading-relaxed text-foreground/90 md:text-lg">
+              Essays, half-formed thoughts, and field notes on{" "}
+              <span className="text-cyan">artificial intelligence</span>,{" "}
+              <span className="text-violet">creative engineering</span>, and the{" "}
+              <span className="text-magenta">small details</span>{" "}
+              that make digital things feel alive.
             </p>
           </Reveal>
         </div>

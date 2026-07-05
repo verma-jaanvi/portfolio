@@ -1,9 +1,11 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
+
 import { ParticleField } from "../components/ParticleField";
 import { Reveal } from "../components/Reveal";
 import { ScrollTilt3D } from "../components/ScrollTilt3D";
 import { Marquee } from "../components/Marquee";
+import SoftAurora from "../components/SoftAurora";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -34,67 +36,39 @@ function Home() {
 }
 
 function Hero() {
-  const orbRef = useRef<HTMLDivElement>(null);
-
   const now = new Date();
 
   const transmission = `${now.getFullYear()}.${String(
     now.getMonth() + 1,
   ).padStart(2, "0")}.${String(now.getDate()).padStart(2, "0")}`;
 
-  useEffect(() => {
-    const onMove = (e: MouseEvent) => {
-      if (!orbRef.current) return;
-      const x = (e.clientX / window.innerWidth - 0.5) * 40;
-      const y = (e.clientY / window.innerHeight - 0.5) * 40;
-      orbRef.current.style.transform = `translate3d(${x}px, ${y}px, 0)`;
-    };
-    window.addEventListener("mousemove", onMove);
-    return () => window.removeEventListener("mousemove", onMove);
-  }, []);
-
   return (
-    <section className="bg-aurora relative isolate flex min-h-screen items-center overflow-hidden">
-      <div className="bg-grid absolute inset-0 opacity-[0.12]" />
-      <div className="bg-noise absolute inset-0 opacity-40" />
-      <ParticleField density={90} />
-
-      <div
-        ref={orbRef}
-        className="pointer-events-none absolute right-[5%] top-1/2 z-0 hidden -translate-y-1/2 transition-transform duration-700 ease-out md:block"
-      >
-        <div className="relative h-[480px] w-[480px] lg:h-[540px] lg:w-[540px]">
-          <div className="absolute inset-0 animate-pulse-glow rounded-full bg-gradient-to-br from-violet via-magenta/60 to-cyan opacity-30 blur-3xl" />
-          <div
-            className="absolute inset-12 rounded-full border border-cyan/30"
-            style={{ animation: "drift 30s linear infinite" }}
-          />
-          <div
-            className="absolute inset-24 rounded-full border border-violet/30"
-            style={{ animation: "drift 24s linear infinite reverse" }}
-          />
-          <div className="absolute inset-40 rounded-full border border-magenta/20" />
-          <div
-            className="absolute left-1/2 top-1/2 h-32 w-32 -translate-x-1/2 -translate-y-1/2 rounded-full bg-gradient-to-br from-cyan to-violet opacity-90 blur-md"
-            style={{ animation: "float 6s ease-in-out infinite" }}
-          />
-          {[0, 1, 2, 3, 4, 5].map((i) => {
-            const angle = (i / 6) * 360;
-            return (
-              <div
-                key={i}
-                className="absolute left-1/2 top-1/2 h-2 w-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-cyan shadow-[0_0_20px_var(--cyan)]"
-                style={{
-                  transform: `rotate(${angle}deg) translateY(-200px)`,
-                  animation: `pulse-glow ${3 + (i % 3)}s ease-in-out infinite ${i * 0.9}s`,
-                }}
-              />
-            );
-          })}
-        </div>
+    <section className="bg-aurora relative isolate flex min-h-screen items-end overflow-hidden pt-36 md:pt-48">
+      {/* SoftAurora full-screen background */}
+      <div className="pointer-events-none absolute inset-0 z-0 w-full h-full">
+        <SoftAurora
+          speed={1.3}
+          scale={1.5}
+          brightness={1.2}
+          color1="#f7f7f7"
+          color2="#e100ff"
+          noiseFrequency={3.5}
+          noiseAmplitude={0.6}
+          bandOffsetFromTop={550}
+          bandSpread={1.2}
+          octaveDecay={0.15}
+          layerOffset={0}
+          colorSpeed={1}
+          enableMouseInteraction={true}
+          mouseInfluence={0.2}
+        />
       </div>
 
-      <div className="relative z-10 mx-auto w-full max-w-7xl px-6 pt-32 mb-15">
+      <div className="bg-grid absolute inset-0 z-[1] opacity-[0.12]" />
+      <div className="bg-noise absolute inset-0 z-[1] opacity-30" />
+      <ParticleField density={90} />
+
+      <div className="relative z-10 mx-auto w-full max-w-7xl px-6 pb-16">
         <Reveal>
           <div className="font-mono inline-flex items-center gap-2 rounded-full border border-border bg-background/40 px-3 py-1 text-[11px] text-muted-foreground backdrop-blur">
             <span className="inline-block h-1.5 w-1.5 animate-pulse rounded-full bg-cyan" />
@@ -102,7 +76,7 @@ function Hero() {
           </div>
         </Reveal>
 
-        <h1 className="mt-8 font-display text-4xl font-semibold leading-[1.2] tracking-tight sm:text-5xl md:text-[6rem] lg:text-[8rem]">
+        <h1 className="mt-6 pb-3 font-display text-5xl font-semibold leading-[1.05] tracking-tight sm:text-7xl md:text-[7rem] lg:text-[8rem]">
           <Reveal as="span" className="block text-gradient-soft">
             Crafting the
           </Reveal>
@@ -543,9 +517,11 @@ function CTA() {
             </p>
 
             <h2 className="mt-4 font-display text-4xl font-semibold leading-[0.95] sm:text-5xl md:text-6xl">
-              Have an idea that 
+              Have an idea that
               <br />
-              <span className="text-gradient italic">shouldn't exist yet? </span>
+              <span className="text-gradient italic">
+                shouldn't exist yet?{" "}
+              </span>
             </h2>
 
             <Link

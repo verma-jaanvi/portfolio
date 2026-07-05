@@ -138,12 +138,16 @@
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.06 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   }
 
-  .bg-aurora {
+  /* .bg-aurora {
     background:
       radial-gradient(ellipse 80% 60% at 20% 10%, color-mix(in oklab, var(--violet) 35%, transparent), transparent 60%),
       radial-gradient(ellipse 60% 50% at 80% 30%, color-mix(in oklab, var(--cyan) 30%, transparent), transparent 60%),
       radial-gradient(ellipse 70% 60% at 50% 100%, color-mix(in oklab, var(--magenta) 25%, transparent), transparent 60%),
       var(--background);
+  } */
+
+  .bg-aurora {
+    background-color: black;
   }
 
   .text-gradient {

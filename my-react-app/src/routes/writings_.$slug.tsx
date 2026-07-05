@@ -1,6 +1,7 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { Reveal } from "../components/Reveal";
 import { ParticleField } from "../components/ParticleField";
+import SoftAurora from "../components/SoftAurora";
 
 // ─── Shared post data (source of truth) ────────────────────────────────────
 export const posts = [
@@ -8,7 +9,8 @@ export const posts = [
     slug: "on-the-texture-of-latent-space",
     date: "2026.04.18",
     title: "On the texture of latent space",
-    excerpt: "What if we treated embeddings less like coordinates and more like weather?",
+    excerpt:
+      "What if we treated embeddings less like coordinates and more like weather?",
     read: 7,
     tag: "AI",
     featured: true,
@@ -304,7 +306,10 @@ function renderContent(md: string) {
   return md.split("\n\n").map((block, i) => {
     if (block.startsWith("## ")) {
       return (
-        <h2 key={i} className="mt-14 font-display text-2xl font-semibold sm:text-3xl">
+        <h2
+          key={i}
+          className="mt-14 font-display text-2xl font-semibold sm:text-3xl"
+        >
           {block.slice(3)}
         </h2>
       );
@@ -315,7 +320,11 @@ function renderContent(md: string) {
     // Bold within paragraph
     const parts = block.split(/(\*\*[^*]+\*\*)/g).map((part, j) => {
       if (part.startsWith("**") && part.endsWith("**")) {
-        return <strong key={j} className="font-semibold text-foreground">{part.slice(2, -2)}</strong>;
+        return (
+          <strong key={j} className="font-semibold text-foreground">
+            {part.slice(2, -2)}
+          </strong>
+        );
       }
       return part;
     });
@@ -334,13 +343,38 @@ function PostPage() {
   return (
     <>
       {/* Hero */}
-      <section className="bg-aurora relative isolate overflow-hidden pb-16 pt-32 md:pt-44">
+      <section className="bg-aurora relative isolate min-h-screen overflow-hidden flex items-end pb-28 pt-36 md:pb-40 md:pt-48">
+        <div className="pointer-events-none absolute inset-0 z-0 w-full h-full">
+          <SoftAurora
+            speed={1.3}
+            scale={1.5}
+            brightness={1.2}
+            color1="#f7f7f7"
+            color2="#e100ff"
+            noiseFrequency={3.5}
+            noiseAmplitude={0.6}
+            bandOffsetFromTop={550}
+            bandHeight={0.2}
+            bandSpread={1.2}
+            octaveDecay={0.15}
+            layerOffset={0}
+            colorSpeed={1}
+            enableMouseInteraction={true}
+            mouseInfluence={0.2}
+          />
+        </div>
+
+        <div className="bg-grid absolute inset-0 z-[1] opacity-[0.12]" />
+        <div className="bg-noise absolute inset-0 z-[1] opacity-30" />
+
         <ParticleField density={30} />
-        <div className="bg-grid absolute inset-0 opacity-[0.06]" />
-        <div className="relative mx-auto max-w-3xl px-6">
+        <div className="relative z-10 mx-auto max-w-7xl w-full px-6">
           <Reveal>
-            <div className="flex flex-wrap items-center gap-3 font-mono text-xs text-muted-foreground">
-              <Link to="/writings" className="hover:text-cyan transition">← signals.journal</Link>
+            <div className="font-mono inline-flex items-center gap-2 rounded-full border border-border bg-background/40 px-3 py-1 text-[11px] text-muted-foreground backdrop-blur">
+              <span className="inline-block h-1.5 w-1.5 animate-pulse rounded-full bg-cyan" />
+              <Link to="/writings" className="hover:text-cyan transition">
+                ← signals.journal
+              </Link>
               <span>·</span>
               <span>{post.tag}</span>
               <span>·</span>
@@ -350,12 +384,14 @@ function PostPage() {
             </div>
           </Reveal>
 
-          <h1 className="mt-8 font-display text-4xl font-semibold leading-[1.05] sm:text-5xl md:text-6xl lg:text-7xl">
-            <Reveal as="span" className="block text-gradient-soft">{post.title}</Reveal>
+          <h1 className="mt-8 pb-3 font-display text-4xl font-semibold leading-[1.05] sm:text-5xl md:text-6xl lg:text-7xl">
+            <Reveal as="span" className="block text-gradient-soft">
+              {post.title}
+            </Reveal>
           </h1>
 
           <Reveal delay={200}>
-            <p className="mt-8 text-lg leading-relaxed text-foreground/60 sm:text-xl">
+            <p className="mt-10 max-w-xl text-base leading-relaxed text-foreground/90 md:text-lg">
               {post.excerpt}
             </p>
           </Reveal>
@@ -364,7 +400,9 @@ function PostPage() {
           <Reveal delay={300}>
             <div className="mt-12 flex items-center gap-4">
               <div className="h-px flex-1 bg-gradient-to-r from-violet/60 via-cyan/40 to-transparent" />
-              <span className="font-mono text-xs text-muted-foreground">transmission begins</span>
+              <span className="font-mono text-xs text-muted-foreground">
+                transmission begins
+              </span>
             </div>
           </Reveal>
         </div>
@@ -388,7 +426,9 @@ function PostPage() {
               <span className="h-px w-8 bg-cyan transition-all group-hover:w-16" />
               back to signals
             </Link>
-            <div className="font-mono text-xs text-muted-foreground">{post.date}</div>
+            <div className="font-mono text-xs text-muted-foreground">
+              {post.date}
+            </div>
           </div>
         </Reveal>
 
@@ -412,8 +452,12 @@ function PostPage() {
 
                   <div className="relative">
                     <div className="flex items-center justify-between font-mono text-[11px] text-muted-foreground">
-                      <span className="uppercase tracking-widest text-cyan">next signal</span>
-                      <span>{next.tag} · {next.read} min</span>
+                      <span className="uppercase tracking-widest text-cyan">
+                        next signal
+                      </span>
+                      <span>
+                        {next.tag} · {next.read} min
+                      </span>
                     </div>
 
                     <h2 className="mt-4 font-display text-2xl font-semibold leading-tight transition group-hover:text-gradient sm:text-3xl md:text-4xl">
@@ -426,7 +470,9 @@ function PostPage() {
 
                     <div className="mt-6 flex items-center gap-3 font-mono text-xs">
                       <span className="h-px w-8 bg-gradient-to-r from-cyan to-violet transition-all duration-500 group-hover:w-20" />
-                      <span className="text-muted-foreground group-hover:text-cyan transition">read signal →</span>
+                      <span className="text-muted-foreground group-hover:text-cyan transition">
+                        read signal →
+                      </span>
                     </div>
                   </div>
                 </Link>

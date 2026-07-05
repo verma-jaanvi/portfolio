@@ -3,6 +3,8 @@ import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ParticleField } from "../components/ParticleField";
 import { Reveal } from "../components/Reveal";
+import SoftAurora from "../components/SoftAurora";
+
 
 export const Route = createFileRoute("/about")({
   head: () => ({
@@ -39,7 +41,7 @@ const timeline = [
     year: "2026",
     title: "Started Freelancing",
     body: "Began working as a freelance developer, building modern web applications and AI-powered solutions for clients while expanding my professional portfolio.",
-  },  
+  },
   {
     year: "2026",
     title: "Software Development Internship",
@@ -74,16 +76,38 @@ const obsessions = [
 function About() {
   return (
     <>
-      <section className="bg-aurora relative isolate min-h-screen overflow-hidden pb-28 pt-36 md:pb-40 md:pt-48">
+      <section className="bg-aurora relative isolate min-h-screen overflow-hidden flex items-end pb-28 pt-36 md:pb-40 md:pt-48">
+        <div className="pointer-events-none absolute inset-0 z-0 w-full h-full">
+          <SoftAurora
+            speed={1.3}
+            scale={1.5}
+            brightness={1.2}
+            color1="#f7f7f7"
+            color2="#e100ff"
+            noiseFrequency={3.5}
+            noiseAmplitude={0.6}
+            bandOffsetFromTop={550}
+            bandSpread={1.2}
+            octaveDecay={0.15}
+            layerOffset={0}
+            colorSpeed={1}
+            enableMouseInteraction={true}
+            mouseInfluence={0.2}
+          />
+        </div>
+
+        <div className="bg-grid absolute inset-0 z-[1] opacity-[0.12]" />
+        <div className="bg-noise absolute inset-0 z-[1] opacity-30" />
+
         <ParticleField density={50} />
-        <div className="bg-grid absolute inset-0 opacity-[0.08]" />
-        <div className="relative mx-auto max-w-7xl px-6">
+        <div className="relative z-10 mx-auto max-w-7xl w-full px-6">
           <Reveal>
-            <p className="font-mono text-xs text-muted-foreground">
-              // origin.story
-            </p>
+            <div className="font-mono inline-flex items-center gap-2 rounded-full border border-border bg-background/40 px-3 py-1 text-[11px] text-muted-foreground backdrop-blur">
+              <span className="inline-block h-1.5 w-1.5 animate-pulse rounded-full bg-cyan" />
+              origin.story
+            </div>
           </Reveal>
-          <h1 className="mt-6 font-display text-5xl font-semibold leading-[0.9] sm:text-7xl md:text-[7rem] lg:text-[8rem]">
+          <h1 className="mt-6 pb-3 font-display text-5xl font-semibold leading-[0.9] sm:text-7xl md:text-[7rem] lg:text-[8rem]">
             <Reveal as="span" className="block text-gradient-soft">
               A maker
             </Reveal>
@@ -192,13 +216,12 @@ function About() {
               A non-linear path
             </h2>
           </Reveal>
-          
+
           <ol className="relative mt-16 border-l border-border/60 pl-8">
             {timeline.map((t) => (
               <Timeline3DNode key={t.year} t={t} />
             ))}
           </ol>
-          
         </div>
       </section>
 
@@ -246,9 +269,9 @@ function Field({ k, v }: { k: string; v: React.ReactNode }) {
 }
 
 // Custom 3D Scroll Node for the Timeline
-function Timeline3DNode({ t }: { t: typeof timeline[0] }) {
+function Timeline3DNode({ t }: { t: (typeof timeline)[0] }) {
   const ref = useRef<HTMLLIElement>(null);
-  
+
   // Tracks the element's position relative to the viewport
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -269,15 +292,13 @@ function Timeline3DNode({ t }: { t: typeof timeline[0] }) {
         y,
         opacity,
         scale,
-        transformPerspective: 1200, 
+        transformPerspective: 1200,
         transformOrigin: "left center", // Pivots dynamically from the timeline border
       }}
       className="relative pb-16 last:pb-0"
     >
       <span className="absolute -left-[37px] top-1.5 inline-flex h-3 w-3 rounded-full bg-gradient-to-br from-violet to-cyan shadow-[0_0_20px_var(--violet)]" />
-      <div className="font-mono text-xs text-muted-foreground">
-        {t.year}
-      </div>
+      <div className="font-mono text-xs text-muted-foreground">{t.year}</div>
       <h3 className="mt-1 font-display text-3xl">{t.title}</h3>
       <p className="mt-3 max-w-2xl text-base leading-relaxed text-foreground/90">
         {t.body}

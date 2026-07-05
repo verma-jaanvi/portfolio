@@ -3,7 +3,7 @@ import { useState } from "react";
 import { ParticleField } from "../components/ParticleField";
 import { Reveal } from "../components/Reveal";
 import { ScrollTilt3D } from "../components/ScrollTilt3D";
-
+import SoftAurora from "../components/SoftAurora";
 
 export const Route = createFileRoute("/projects")({
   head: () => ({
@@ -101,16 +101,39 @@ function Projects() {
 
   return (
     <>
-      <section className="bg-aurora relative isolate overflow-hidden pb-20 pt-36 md:pt-44 h-screen">
+      <section className="bg-aurora relative isolate min-h-screen overflow-hidden flex items-end pb-20 pt-36 md:pt-48">
+        <div className="pointer-events-none absolute inset-0 z-0 w-full h-full">
+          <SoftAurora
+            speed={1.3}
+            scale={1.5}
+            brightness={1.2}
+            color1="#f7f7f7"
+            color2="#e100ff"
+            noiseFrequency={3.5}
+            noiseAmplitude={0.6}
+            bandOffsetFromTop={550}
+            bandHeight={0.2}
+            bandSpread={1.2}
+            octaveDecay={0.15}
+            layerOffset={0}
+            colorSpeed={1}
+            enableMouseInteraction={true}
+            mouseInfluence={0.2}
+          />
+        </div>
+
+        <div className="bg-grid absolute inset-0 z-[1] opacity-[0.12]" />
+        <div className="bg-noise absolute inset-0 z-[1] opacity-30" />
+
         <ParticleField density={40} />
-        <div className="bg-grid absolute inset-0 opacity-[0.08]" />
-        <div className="relative mx-auto max-w-7xl px-6">
+        <div className="relative z-10 mx-auto max-w-7xl w-full px-6">
           <Reveal>
-            <p className="font-mono text-xs text-muted-foreground">
-              // works.archive — {projects.length} entries
-            </p>
+            <div className="font-mono inline-flex items-center gap-2 rounded-full border border-border bg-background/40 px-3 py-1 text-[11px] text-muted-foreground backdrop-blur">
+              <span className="inline-block h-1.5 w-1.5 animate-pulse rounded-full bg-cyan" />
+              works.archive — {projects.length} entries
+            </div>
           </Reveal>
-          <h1 className="mt-6 font-display text-5xl font-semibold leading-[0.9] sm:text-7xl md:text-[7rem] lg:text-[9rem]">
+          <h1 className="mt-6 pb-3 font-display text-5xl font-semibold leading-[0.9] sm:text-7xl md:text-[7rem] lg:text-[8rem]">
             <Reveal as="span" className="block text-gradient-soft">
               Selected
             </Reveal>
@@ -121,32 +144,39 @@ function Projects() {
               small universes.
             </Reveal>
           </h1>
-
-          
+          <Reveal delay={400}>
+            <p className="mt-10 max-w-xl text-base leading-relaxed text-foreground/90 md:text-lg">
+              Not just code — each project is a contained world with its own rules,
+              aesthetic, and reason to exist. Shipped experiments in{" "}
+              <span className="text-cyan">AI</span>,{" "}
+              <span className="text-violet">interactive design</span>, and{" "}
+              <span className="text-magenta">emergent systems</span>.
+            </p>
+          </Reveal>
         </div>
       </section>
 
       <section className="mx-auto mt-24 max-w-7xl px-6 pb-24 md:pb-12">
         <Reveal delay={400}>
-            <div className="my-12 flex flex-wrap items-center gap-2 md:mt-16">
-              {categories.map((c) => (
-                <button
-                  key={c}
-                  onClick={() => setActive(c)}
-                  className={`rounded-full border px-4 py-1.5 font-mono text-xs transition ${
-                    active === c
-                      ? "border-cyan/60 bg-cyan/15 text-cyan"
-                      : "border-border bg-background/40 text-foreground/70 hover:border-violet/40"
-                  }`}
-                >
-                  {c}
-                </button>
-              ))}
-              <span className="w-full font-mono text-[11px] text-muted-foreground sm:ml-auto sm:w-auto">
-                showing {filtered.length} / {projects.length}
-              </span>
-            </div>
-          </Reveal>
+          <div className="my-12 flex flex-wrap items-center gap-2 md:mt-16">
+            {categories.map((c) => (
+              <button
+                key={c}
+                onClick={() => setActive(c)}
+                className={`rounded-full border px-4 py-1.5 font-mono text-xs transition ${
+                  active === c
+                    ? "border-cyan/60 bg-cyan/15 text-cyan"
+                    : "border-border bg-background/40 text-foreground/70 hover:border-violet/40"
+                }`}
+              >
+                {c}
+              </button>
+            ))}
+            <span className="w-full font-mono text-[11px] text-muted-foreground sm:ml-auto sm:w-auto">
+              showing {filtered.length} / {projects.length}
+            </span>
+          </div>
+        </Reveal>
 
         <div className="grid grid-cols-1 gap-10 md:grid-cols-2">
           {filtered.map((p, i) => (

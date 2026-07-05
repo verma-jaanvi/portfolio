@@ -28,6 +28,7 @@ export default function Scene3D() {
           <AmbientField scrollProgress={progress} reducedMotion={reducedMotion} />
           <Totem scrollProgress={progress} reducedMotion={reducedMotion} sectionCount={4} />
         </Suspense>
+        
       </Canvas>
     </div>
   );

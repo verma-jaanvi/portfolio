@@ -3,6 +3,7 @@ import { useState } from "react";
 import { ParticleField } from "../components/ParticleField";
 import { Reveal } from "../components/Reveal";
 import { submitContact } from "@/lib/content.functions";
+import SoftAurora from "../components/SoftAurora";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
@@ -79,22 +80,49 @@ function Contact() {
     }
   };
 
-  return (
-    <section className="bg-aurora relative isolate min-h-screen overflow-hidden pb-28 pt-16 md:pb-40 md:pt-35">
-      <ParticleField density={45} />
-      <div className="bg-grid absolute inset-0 opacity-[0.08]" />
+  const now = new Date();
 
-      <div className="relative mx-auto flex max-w-7xl flex-col gap-16 px-6 md:gap-24">
+  const transmission = `${now.getFullYear()}.${String(
+    now.getMonth() + 1,
+  ).padStart(2, "0")}.${String(now.getDate()).padStart(2, "0")}`;
+
+  return (
+    <section className="bg-aurora relative isolate min-h-screen overflow-hidden flex items-end pb-28 pt-36 md:pb-40 md:pt-48">
+      <div className="pointer-events-none absolute inset-0 z-0 w-full h-full">
+        <SoftAurora
+          speed={1.3}
+          scale={1.5}
+          brightness={1.2}
+          color1="#f7f7f7"
+          color2="#e100ff"
+          noiseFrequency={3.5}
+          noiseAmplitude={0.6}
+          bandOffsetFromTop={550}
+          bandHeight={0.2}
+          bandSpread={1.2}
+          octaveDecay={0.15}
+          layerOffset={0}
+          colorSpeed={1}
+          enableMouseInteraction={true}
+          mouseInfluence={0.2}
+        />
+      </div>
+
+      <div className="bg-grid absolute inset-0 z-[1] opacity-[0.12]" />
+      <div className="bg-noise absolute inset-0 z-[1] opacity-30" />
+
+      <ParticleField density={45} />
+      <div className="relative mx-auto flex max-w-7xl w-full flex-col gap-16 px-6 md:gap-24">
         {/* Top: Hero */}
         <div className="relative z-10 w-full mb-10">
           <Reveal>
             <div className="font-mono inline-flex items-center gap-2 rounded-full border border-border bg-background/40 px-3 py-1 text-[11px] text-muted-foreground backdrop-blur">
               <span className="inline-block h-1.5 w-1.5 animate-pulse rounded-full bg-cyan" />
-              now broadcasting · open.transmission
+              now broadcasting · {transmission} transmission
             </div>
           </Reveal>
 
-          <h1 className="mt-8 font-display text-4xl font-semibold leading-[1.0] tracking-tight sm:text-5xl md:text-[6rem] lg:text-[8rem]">
+          <h1 className="mt-6 pb-3 font-display text-5xl font-semibold leading-[0.9] tracking-tight sm:text-7xl md:text-[7rem] lg:text-[8rem]">
             <Reveal as="span" className="block text-gradient-soft">
               Let's build
             </Reveal>
@@ -152,7 +180,7 @@ function Contact() {
         </div>
 
         {/* Bottom: Form */}
-        <div >
+        <div>
           <Reveal delay={200}>
             <div className="border-glow glass-strong relative overflow-hidden rounded-3xl p-8 md:p-10">
               {sent ? (

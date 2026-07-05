@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type ReactNode, type ElementType } from "react";
+import React, { useEffect, useRef, useState, type ReactNode, type ElementType } from "react";
 
 interface Props {
   children: ReactNode;
@@ -29,10 +29,11 @@ export function Reveal({ children, delay = 0, className = "", as: Tag = "div" }:
     return () => io.disconnect();
   }, []);
 
-  const Component = Tag as ElementType;
+  // Cast to any to allow dynamic tags with ref + arbitrary props
+  const Component = Tag as React.ComponentType<React.HTMLAttributes<HTMLElement> & { ref?: React.Ref<HTMLElement> }>;
   return (
     <Component
-      ref={ref as React.Ref<HTMLElement>}
+      ref={ref}
       className={className}
       style={{
         opacity: visible ? 1 : 0,
