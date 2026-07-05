@@ -2,7 +2,6 @@ import { Canvas } from '@react-three/fiber';
 import { Suspense } from 'react';
 import { useScrollProgress } from '../three/useScrollProgress';
 import AmbientField from '../three/AmbientField';
-import Totem from '../three/Totem';
 
 export default function Scene3D() {
   const { progress, reducedMotion } = useScrollProgress();
@@ -26,7 +25,6 @@ export default function Scene3D() {
           <pointLight position={[5, 5, 5]} intensity={1.2} color="#7dd3fc" />
           <pointLight position={[-5, -3, -5]} intensity={1} color="#e879f9" />
           <AmbientField scrollProgress={progress} reducedMotion={reducedMotion} />
-          <Totem scrollProgress={progress} reducedMotion={reducedMotion} sectionCount={4} />
         </Suspense>
         
       </Canvas>

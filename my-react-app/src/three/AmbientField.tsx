@@ -37,6 +37,7 @@ export default function AmbientField({ scrollProgress, reducedMotion }: AmbientF
       <bufferGeometry>
         <bufferAttribute
           attach="attributes-position"
+          args={[positions, 3]}
           count={count}
           array={positions}
           itemSize={3}
