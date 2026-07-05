@@ -7,7 +7,7 @@ const schema = z.object({
   intent: z.string().trim().max(120).optional(),
   message: z.string().trim().min(1).max(5000),
   userAgent: z.string().max(500).optional(),
-  honeypot: z.string().max(0).optional(), // must be empty — bots fill this
+  honeypot: z.string().optional(), // bots fill this — checked below, not via zod
 });
 
 // Simple in-memory cooldown: one submission per session per 60s

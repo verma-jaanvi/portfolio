@@ -62,7 +62,7 @@ function Contact() {
         email,
         intent,
         message,
-        honeypot: String(form.get("website") || ""),
+        honeypot: String(form.get("b_address_uid") || ""),
         userAgent:
           typeof navigator !== "undefined"
             ? navigator.userAgent.slice(0, 500)
@@ -112,7 +112,7 @@ function Contact() {
       <div className="bg-noise absolute inset-0 z-[1] opacity-30" />
 
       <ParticleField density={45} />
-      <div className="relative mx-auto flex max-w-7xl w-full flex-col gap-16 px-6 md:gap-24">
+      <div className="relative z-10 mx-auto flex max-w-7xl w-full flex-col gap-16 px-6 md:gap-24">
         {/* Top: Hero */}
         <div className="relative z-10 w-full mb-10">
           <Reveal>
@@ -203,18 +203,12 @@ function Contact() {
                 <form onSubmit={onSubmit} className="space-y-8">
                   {/* Honeypot — hidden from humans, bots fill it and get silently blocked */}
                   <input
-                    name="website"
+                    name="b_address_uid"
                     type="text"
                     tabIndex={-1}
                     autoComplete="off"
                     aria-hidden="true"
-                    style={{
-                      position: "absolute",
-                      left: "-9999px",
-                      width: "1px",
-                      height: "1px",
-                      overflow: "hidden",
-                    }}
+                    style={{ display: "none" }}
                   />
                   <div>
                     <label className="font-mono text-[11px] uppercase tracking-widest text-muted-foreground">
